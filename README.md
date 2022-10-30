@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Back-End overview
 
 **Used technologies**
@@ -21,3 +22,6 @@ Third party libraries: cors, limiter, helmet, jwt, celebrate, and joi.
 **Links**
 
 -   API => https://api.yaron-news.students.nomoredomainssbs.ru
+=======
+# news-explorer-backend
+>>>>>>> 02700b6fbfc49713a31774d334f0146b7b269f13
