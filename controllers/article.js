@@ -3,17 +3,15 @@ const {
   CREATE,
   INVALID_DATA_MESSAGE,
   FORBIDDEN_MESSAGE,
-  ARTICLE_NOT_FOUND_MESSAGE,
 } = require('../utils/constants');
 
-const NotFound = require('../errors/NotFound-err');
 const BadRequest = require('../errors/BadRequest');
 const Forbidden = require('../errors/Forbidden');
 
 // GET REQUEST
 // ROUTE = ('/article')
 const getArticles = (req, res, next) => {
-  const owner = req.user._id;
+  const owner = req.PARAMS._id;
   Article.find({ owner })
     .then((articles) => res.status(200).send(articles))
     .catch(next);
@@ -33,7 +31,7 @@ const saveArticle = (req, res, next) => {
     source,
     link,
     image,
-    owner: req.user._id,
+    owner: req.PARAMS._id,
   })
     .then((article) => res.status(CREATE).send(article))
     .catch((err) => {
@@ -45,20 +43,23 @@ const saveArticle = (req, res, next) => {
 };
 
 // DELETE REQUEST
-// ROUTE = ('/cards/:_id')
+// ROUTE = ('/article/:_id')
 const deleteArticleById = (req, res, next) => {
-  Article.findById(req.PARAMS.articleID)
+  const articleId = req.PARAMS._id;
+  const user = req.user._id;
+  Article.findById(articleId)
     .orFail()
     .then((article) => {
-      if (article.owner !== req.user._id) {
+      // eslint-disable-next-line no-console
+      (console.log(article));
+      const { owner } = article;
+      // eslint-disable-next-line eqeqeq
+      if (owner != user) {
         throw new Forbidden(FORBIDDEN_MESSAGE);
       }
-      return Article.findByIdAndRemove(req.PARAMS.articleID).then(() => res.send(article));
-    })
-    .catch((err) => {
-      if (err.name === 'DocumentNotFoundError') {
-        throw new NotFound(ARTICLE_NOT_FOUND_MESSAGE);
-      }
+      return Article.findByIdAndRemove(articleId).then(
+        () => res.status(200).send(article)
+      );
     })
     .catch(next);
 };
