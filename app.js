@@ -12,10 +12,12 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/centralizeError');
 const userRouter = require('./routes/users');
 const articleRouter = require('./routes/articles');
+const {
+  MONGO_DB = 'mongodb://localhost:27017/newsdb',
+  PORT = 3000,
+} = require('./utils/config');
 
-const { PORT = 3000 } = process.env;
-
-mongoose.connect('mongodb://localhost:27017/newsdb');
+mongoose.connect(MONGO_DB);
 
 const app = express();
 const allowedOrigins = [
