@@ -50,7 +50,7 @@ const deleteArticleById = (req, res, next) => {
   Article.findById(articleId)
     .orFail()
     .then((article) => {
-      const owner = req.user._id;
+      const { owner } = req.params;
       // eslint-disable-next-line eqeqeq
       if (owner != user) {
         throw new Forbidden(FORBIDDEN_MESSAGE);
