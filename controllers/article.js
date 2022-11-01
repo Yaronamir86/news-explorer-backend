@@ -11,7 +11,7 @@ const Forbidden = require('../errors/Forbidden');
 // GET REQUEST
 // ROUTE = ('/article')
 const getArticles = (req, res, next) => {
-  const owner = req.params._id;
+  const owner = req.user._id;
   Article.find({ owner })
     .then((articles) => res.status(200).send(articles))
     .catch(next);
@@ -50,7 +50,7 @@ const deleteArticleById = (req, res, next) => {
   Article.findById(articleId)
     .orFail()
     .then((article) => {
-      const { owner } = req.params;
+      const { owner } = article;
       // eslint-disable-next-line eqeqeq
       if (owner != user) {
         throw new Forbidden(FORBIDDEN_MESSAGE);
