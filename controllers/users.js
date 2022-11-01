@@ -9,7 +9,7 @@ const {
   userIdValidateProcess,
 } = require('../utils/constants');
 
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET = 'super_secret_key' } = process.env;
 const Unauthoraized = require('../errors/Unauthorized');
 const BadRequest = require('../errors/BadRequest');
 const Conflict = require('../errors/Conflict');
