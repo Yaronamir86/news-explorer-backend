@@ -11,7 +11,7 @@ const Forbidden = require('../errors/Forbidden');
 // GET REQUEST
 // ROUTE = ('/article')
 const getArticles = (req, res, next) => {
-  const owner = req.PARAMS._id;
+  const owner = req.params._id;
   Article.find({ owner })
     .then((articles) => res.status(200).send(articles))
     .catch(next);
@@ -31,7 +31,7 @@ const saveArticle = (req, res, next) => {
     source,
     link,
     image,
-    owner: req.PARAMS._id,
+    owner: req.user._id,
   })
     .then((article) => res.status(CREATE).send(article))
     .catch((err) => {
@@ -45,14 +45,12 @@ const saveArticle = (req, res, next) => {
 // DELETE REQUEST
 // ROUTE = ('/article/:_id')
 const deleteArticleById = (req, res, next) => {
-  const articleId = req.PARAMS._id;
+  const articleId = req.params._id;
   const user = req.user._id;
   Article.findById(articleId)
     .orFail()
     .then((article) => {
-      // eslint-disable-next-line no-console
-      (console.log(article));
-      const { owner } = article;
+      const owner = req.user._id;
       // eslint-disable-next-line eqeqeq
       if (owner != user) {
         throw new Forbidden(FORBIDDEN_MESSAGE);
