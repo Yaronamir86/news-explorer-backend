@@ -28,18 +28,18 @@ const EMPTY_STR_MESSAGE = 'Required input!';
 const VALID_EMAIL_MESSAGE = 'Valid Email is required!';
 const VALID_URL_MESSAGE = 'Valid url link is required!';
 
-const cardIdValidateProcess = (req, res, action, next) =>
-  action
-    .orFail()
-    .then((card) => res.status(200).send(card))
-    .catch((err) => {
-      if (err.name === 'DocumentNotFoundError') {
-        throw new NotFound(ARTICLE_NOT_FOUND_MESSAGE);
-      } else if (err.name === 'castError') {
-        throw new BadRequest(INVALID_DATA_MESSAGE);
-      }
-    })
-    .catch(next);
+// const cardIdValidateProcess = (req, res, action, next) =>
+// action
+//   .orFail()
+// .then((card) => res.status(200).send(card))
+//   .catch((err) => {
+//     if (err.name === 'DocumentNotFoundError') {
+//       throw new NotFound(ARTICLE_NOT_FOUND_MESSAGE);
+//     } else if (err.name === 'castError') {
+// throw new BadRequest(INVALID_DATA_MESSAGE);
+//     }
+//   })
+// .catch(next);
 
 const userIdValidateProcess = (req, res, action, next) =>
   action
@@ -74,6 +74,6 @@ module.exports = {
   EMPTY_STR_MESSAGE,
   VALID_EMAIL_MESSAGE,
   VALID_URL_MESSAGE,
-  cardIdValidateProcess,
+  // cardIdValidateProcess,
   userIdValidateProcess
 };

@@ -1,4 +1,4 @@
-const errorHandler = (err, req, res) => {
+const errorHandler = (err, req, res, next) => {
   const { statusCode = 500, message } = err;
   // eslint-disable-next-line no-console
   console.log('here');
@@ -9,6 +9,7 @@ const errorHandler = (err, req, res) => {
         ? 'An error occurred in the server'
         : message
     });
+  next();
 };
 
 module.exports = errorHandler;
