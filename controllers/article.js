@@ -48,18 +48,21 @@ const deleteArticleById = (req, res, next) => {
   const articleId = req.params._id;
   const user = req.user._id;
   Article.findById(articleId)
+    // eslint-disable-next-line no-console
     .orFail()
     .then((article) => {
       const { owner } = article;
       // eslint-disable-next-line eqeqeq
       if (owner != user) {
-        throw new Forbidden(FORBIDDEN_MESSAGE);
+        return next(new Forbidden(FORBIDDEN_MESSAGE));
       }
       return Article.findByIdAndRemove(articleId).then(
         () => res.status(200).send(article)
       );
     })
-    .catch(next);
+    .catch((err) => {
+      next(err);
+    });
 };
 
 module.exports = {

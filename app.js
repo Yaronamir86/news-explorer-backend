@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: './.env' });
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -12,6 +12,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/centralizeError');
 const userRouter = require('./routes/users');
 const articleRouter = require('./routes/articles');
+
 const {
   MONGO_DB = 'mongodb://localhost:27017/newsdb',
   PORT = 3000,
@@ -26,7 +27,8 @@ const allowedOrigins = [
   'http://localhost:3000',
 ];
 app.use(cors(allowedOrigins));
-app.use(requestLogger);
+app.use(limiter);
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -35,8 +37,8 @@ app.use(
     crossOriginResourcePolicy: false,
   })
 );
+app.use(requestLogger);
 
-app.use(limiter);
 app.use(userRouter);
 app.use('/articles', articleRouter);
 app.use('*', nonExistRoute);
