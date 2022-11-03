@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './.env' });
+require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -15,7 +15,7 @@ const articleRouter = require('./routes/articles');
 
 const {
   MONGO_DB = 'mongodb://localhost:27017/newsdb',
-  PORT = 3000,
+  PORT = 3000
 } = require('./utils/config');
 
 mongoose.connect(MONGO_DB);
