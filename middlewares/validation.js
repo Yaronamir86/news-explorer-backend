@@ -32,6 +32,10 @@ const validateRegister = celebrate({
 
 const validateLogin = celebrate({
   body: Joi.object().keys({
+    name: Joi.string().min(2).max(30).messages({
+      'string.min': MIN_STR_MESSAGE,
+      'string.max': MAX_STR_MESSAGE,
+    }),
     email: Joi.string().required().email().message(VALID_EMAIL_MESSAGE),
     password: Joi.string().required().min(8).messages({
       'string.empty': EMPTY_STR_MESSAGE,
